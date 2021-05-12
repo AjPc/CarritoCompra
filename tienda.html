@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tienda Online</title>
+    <link rel="stylesheet" href="tienda.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-6">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">FrecuenciaGH / EspacioTb</th>
+                            <th class="text-center">Precio</th>
+                            <th class="text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="pt-3">Procesador</td>
+                            <td class="text-center">
+                                <select class="form-select pt-2 pb-2" name="select" id="micro" onchange="getMicro()"/></select>
+                            </td>
+                            <td id="frecuencyMicro" class="text-center pt-3"></td>
+                            <td id="priceMicro" class="text-center pt-3"></td>
+                            <td class="text-center">
+                                <button id="btnAddMicro" type="button" class="btn btn-info" onclick="addMicro()">Añadir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3">Memoria</td>
+                            <td class="text-center">
+                                <select class="form-select pt-2 pb-2" name="select" id="ram" onchange="getRam()"/></select>
+                            </td>
+                            <td id="frecuencyRam" class="text-center pt-3"></td>
+                            <td id="priceRam" class="text-center pt-3"></td>
+                            <td class="text-center">
+                                <button id="btnAddRam" type="button" class="btn btn-info" onclick="addRam()">Añadir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3">Disco</td>
+                            <td class="text-center">
+                                <select class="form-select pt-2 pb-2" name="select" id="hdd" onchange="getHDD()"/></select>
+                            </td>
+                            <td id="frecuencyHdd" class="text-center pt-3"></td>
+                            <td id="priceHdd" class="text-center pt-3"></td>
+                            <td class="text-center">
+                                <button id="btnAddHDD" type="button" class="btn btn-info" onclick="addHDD()">Añadir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-5">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Tipo</th>
+                            <th>Precio</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="resumenProducts">
+                    </tbody>
+                    <tr>
+                        <td class="pt-3">Total productos</td>
+                        <td></td>
+                        <td class="pt-3" id="resumenPrecio"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-1"></div>
+            <div class="col-4 mt-5">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Método de pago</th>
+                            <th class="text-center">Comisión</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-check pt-2 pb-2">
+                                    <input class="form-check-input" type="radio" name="pago" id="visa" value="option1" checked>
+                                    <label class="form-check-label" for="visa">Tarjeta de crédito</label>
+                                </div>
+                            </td>
+                            <td id="comisionVisa" class="text-center pt-3">8.50</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check pt-2 pb-2">
+                                    <input class="form-check-input" type="radio" name="pago" id="paypal" value="option2">
+                                    <label class="form-check-label" for="paypal">Paypal</label>
+                                </div>
+                            </td>
+                            <td id="comisionPaypal" class="text-center pt-3">5.50</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check pt-2 pb-2">
+                                    <input class="form-check-input" type="radio" name="pago" id="transfe" value="option3">
+                                    <label class="form-check-label" for="transfe">Transferencia Bancaria</label>
+                                </div>
+                            </td>
+                            <td id="comisionTransfe" class="text-center pt-3">7.05</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-3"></div>
+            <div class="col-4 mt-5">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Confirmación</th>
+                            <th class="text-center">Totales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="pt-3">Precio</td>
+                            <td id="sumaProductos" class="text-center pt-3"></td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3">Método</td>
+                            <td id="metodoElegido" class="text-center pt-3"></td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3">Comisión</td>
+                            <td id="sumaComisiones" class="text-center pt-3"></td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3">Coste Total</td>
+                            <td id="sumaTotal" class="text-center pt-3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ///////////////////////////////////////BOOTSTRAP/////////////////////////////////////// -->
+
+    <script src="tienda.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
