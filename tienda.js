@@ -71,6 +71,10 @@ let ramAlmacenada = [];
 let hddAlmacenado = [];
 let almacen = [];
 
+let visa = document.getElementById("visa");
+let paypal = document.getElementById("paypal");
+let transfe = document.getElementById("transfe");
+
 window.onload = () => {
     pintarDatos();
 }
@@ -87,8 +91,8 @@ function pintarDatos() {
     document.getElementById("frecuencyMicro").innerHTML = procesadores[0].frecuencia;
     document.getElementById("priceMicro").innerHTML = procesadores[0].precio + " €";
     microAlmacenado = procesadores[0];
-    document.getElementById("frecuencyRam").innerHTML = procesadores[0].frecuencia;
-    document.getElementById("priceRam").innerHTML = procesadores[0].precio + " €";
+    document.getElementById("frecuencyRam").innerHTML = memorias[0].frecuencia;
+    document.getElementById("priceRam").innerHTML = memorias[0].precio + " €";
     ramAlmacenada = memorias[0];
     document.getElementById("frecuencyHdd").innerHTML = discos[0].frecuencia;
     document.getElementById("priceHdd").innerHTML = discos[0].precio + " €";
@@ -184,23 +188,96 @@ function addHDD() {
     almacen.push(hddAlmacenado);
     pintarCarrito();
 }
+
+let precioTotal2 = 0;
+let comision = 0;
+
 function pintarCarrito() {
-    document.getElementById("resumenProducts").innerHTML = "";
     let precioTotal = 0;
+    document.getElementById("resumenProducts").innerHTML = "";
     for (let i = 0; i < almacen.length; i++) {
         document.getElementById("resumenProducts").innerHTML +=
             `<tr>
-        <td class="pt-3">${almacen[i].producto}</td>
-        <td class="pt-3">${almacen[i].tipo}</td>
-        <td class="pt-3">${almacen[i].precio}</td>
-        <td><button type="button" class="btn btn-danger" id="${i}" onclick="borrarRegistro()">Eliminar</button></td>
+            <td class="pt-3">${almacen[i].producto}</td>
+            <td class="pt-3">${almacen[i].tipo}</td>
+            <td class="pt-3">${almacen[i].precio}</td>
+            <td><button type="button" class="btn btn-danger" id="${i}" onclick="borrarRegistro(${i})">Eliminar</button></td>
         </tr>
         `
-    precioTotal = parseFloat(precioTotal) + parseFloat(almacen[i].precio);
+        precioTotal = parseFloat(precioTotal) + parseFloat(almacen[i].precio);
+        precioTotal2 = precioTotal;
     }
     document.getElementById("resumenPrecio").innerHTML = precioTotal + " €";
+    document.getElementById("sumaProductos").innerHTML = precioTotal + " €";
+
+    if (visa.checked) {
+        comision = (parseFloat(precioTotal) * parseFloat(8.50)) / 100;
+        document.getElementById("metodoElegido").innerHTML = "Tarjeta Crédito";
+        document.getElementById("sumaComisiones").innerHTML = "8,50 %";
+        document.getElementById("sumaTotal").innerHTML = comision + precioTotal + " €";
+    };
+
+    if (paypal.checked) {
+        comision = (parseFloat(precioTotal) * parseFloat(5.50)) / 100;
+        document.getElementById("metodoElegido").innerHTML = "Paypal";
+        document.getElementById("sumaComisiones").innerHTML = "5,50 %";
+        document.getElementById("sumaTotal").innerHTML = comision + precioTotal + " €";
+    };
+
+    if (transfe.checked) {
+        comision = (parseFloat(precioTotal) * parseFloat(7)) / 100;
+        document.getElementById("metodoElegido").innerHTML = "Transferencia";
+        document.getElementById("sumaComisiones").innerHTML = "7,00 %";
+        document.getElementById("sumaTotal").innerHTML = comision + precioTotal + " €";
+    }
 }
 
-function borrarRegistro(){
-    
+visa.addEventListener("change", function () {
+    if (this.checked) {
+        comision = (parseFloat(precioTotal2) * parseFloat(8.50)) / 100;
+        document.getElementById("metodoElegido").innerHTML = "Tarjeta Crédito";
+        document.getElementById("sumaComisiones").innerHTML = "8,50 %";
+        document.getElementById("sumaTotal").innerHTML = comision + precioTotal2 + " €";
+    }
+});
+paypal.addEventListener("change", function () {
+    if (this.checked) {
+        comision = (parseFloat(precioTotal2) * parseFloat(5.50)) / 100;
+        document.getElementById("metodoElegido").innerHTML = "Paypal";
+        document.getElementById("sumaComisiones").innerHTML = "5,50 %";
+        document.getElementById("sumaTotal").innerHTML = comision + precioTotal2 + " €";
+    }
+});
+transfe.addEventListener("change", function () {
+    if (this.checked) {
+        comision = (parseFloat(precioTotal2) * parseFloat(7)) / 100;
+        document.getElementById("metodoElegido").innerHTML = "Transferencia";
+        document.getElementById("sumaComisiones").innerHTML = "7,00 %";
+        document.getElementById("sumaTotal").innerHTML = comision + precioTotal2 + " €";
+    }
+});
+
+// function gestionarMetodosDePago(paramPayMethod) {
+//     if (paramPayMethod == "paypal") {
+//         let metodoElegido = "Paypal";
+//         let comisiones = "7,00 %";
+//         let comisionesRaw = 7;
+//     } else if (paramPayMethod == "visa") {
+//         let metodoElegido = "Tarjeta Crédito";
+//         let comisiones = "8,50 %";
+//         let comisionesRaw = 8.5;
+//     } else if (paramPayMethod == "transfe") {
+//         let metodoElegido = "Transferencia";
+//         let comisiones = "5,50 %";
+//         let comisionesRaw = 5.5;
+//     }
+
+//     comision = (parseFloat(precioTotal2) * parseFloat(comisionesRaw)) / 100;
+//     document.getElementById("metodoElegido").innerHTML = metodoElegido;
+//     document.getElementById("sumaComisiones").innerHTML = comisiones;
+//     document.getElementById("sumaTotal").innerHTML = comision + precioTotal2 + " €";
+// }
+
+function borrarRegistro() {
+
 }
