@@ -1,64 +1,82 @@
 let procesadores = [
     {
+        id: "mic1",
         producto: "Micro",
         tipo: "i3",
+        cantidad: "1",
         frecuencia: "2",
-        precio: "100"
+        precio: "100",
     },
     {
+        id: "mic2",
         producto: "Micro",
         tipo: "i5",
+        cantidad: "1",
         frecuencia: "2,5",
-        precio: "200"
+        precio: "200",
     },
     {
+        id: "mic3",
         producto: "Micro",
         tipo: "i7",
+        cantidad: "1",
         frecuencia: "3",
-        precio: "250"
+        precio: "250",
     }
 ];
 let memorias = [
     {
+        id: "ram1",
         producto: "Ram",
         tipo: "LG",
         frecuencia: "2200",
+        cantidad: "1",
         espacio: "4",
-        precio: "70"
+        precio: "70",
     },
     {
+        id: "ram2",
         producto: "Ram",
         tipo: "Samsung",
         frecuencia: "2600",
+        cantidad: "1",
         espacio: "8",
-        precio: "120"
+        precio: "120",
     },
     {
+        id: "ram3",
         producto: "Ram",
         tipo: "Sony",
         frecuencia: "2800",
+        cantidad: "1",
         espacio: "16",
-        precio: "240"
+        precio: "240",
     }
 ];
 let discos = [
     {
+        id: "hdd1",
         producto: "Disco",
         tipo: "Seagate",
+        cantidad: "1",
         frecuencia: "1024",
-        precio: "70"
+        precio: "70",
     },
     {
+        id: "hdd2",
         producto: "Disco",
         tipo: "Hitachi",
+        cantidad: "1",
         frecuencia: "2048",
-        precio: "120"
+        precio: "120",
     },
     {
+        id: "hdd3",
         producto: "Disco",
         tipo: "Western-Digital",
+        cantidad: "1",
         frecuencia: "3072",
-        precio: "140"
+        precio: "140",
     }
 ];
 
@@ -123,6 +141,7 @@ function getMicro() {
         document.getElementById("priceMicro").innerHTML = procesadores[2].precio + " €";
         microAlmacenado = procesadores[2];
     }
+    console.log(microAlmacenado);
 }
 function getRam() {
     let ram1 = "";
@@ -177,7 +196,18 @@ function getHDD() {
     }
 }
 function addMicro() {
+    let i3Obj = almacen.findIndex(almacen => almacen.tipo === "i3");
+    let i5Obj = almacen.findIndex(almacen => almacen.tipo === "i5");
+    let i7Obj = almacen.findIndex(almacen => almacen.tipo === "i7");
+
+    if (i3Obj != -1) {
+    almacen[i3Obj].cantidad = parseInt(almacen[i3Obj].cantidad) + 1;
+    almacen[i3Obj].precio = parseInt(almacen[i3Obj].precio) + 100;
+    } else {
     almacen.push(microAlmacenado);
+    }
+
+    // almacen.push(microAlmacenado);
     pintarCarrito();
 }
 function addRam() {
@@ -200,8 +230,9 @@ function pintarCarrito() {
             `<tr>
             <td class="pt-3">${almacen[i].producto}</td>
             <td class="pt-3">${almacen[i].tipo}</td>
+            <td class="pt-3">${almacen[i].cantidad}</td>
             <td class="pt-3">${almacen[i].precio}</td>
-            <td><button type="button" class="btn btn-danger" id="${i}" onclick="borrarRegistro(${i})">Eliminar</button></td>
+            <td><button type="button" class="btn btn-danger" id="" onclick="borrarRegistro()">Eliminar</button></td>
         </tr>
         `
         precioTotal = parseFloat(precioTotal) + parseFloat(almacen[i].precio);
@@ -280,4 +311,5 @@ transfe.addEventListener("change", function () {
 
 function borrarRegistro() {
 
+    // pintarCarrito();
 }
