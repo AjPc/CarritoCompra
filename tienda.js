@@ -50,7 +50,7 @@ let memorias = [
         frecuencia: "2800",
         cantidad: "1",
         espacio: "16",
-        precio: "240",
+        precio: "140",
     }
 ];
 let discos = [
@@ -141,7 +141,6 @@ function getMicro() {
         document.getElementById("priceMicro").innerHTML = procesadores[2].precio + " €";
         microAlmacenado = procesadores[2];
     }
-    console.log(microAlmacenado);
 }
 function getRam() {
     let ram1 = "";
@@ -200,22 +199,65 @@ function addMicro() {
     let i5Obj = almacen.findIndex(almacen => almacen.tipo === "i5");
     let i7Obj = almacen.findIndex(almacen => almacen.tipo === "i7");
 
-    if (i3Obj != -1) {
-    almacen[i3Obj].cantidad = parseInt(almacen[i3Obj].cantidad) + 1;
-    almacen[i3Obj].precio = parseInt(almacen[i3Obj].precio) + 100;
-    } else {
-    almacen.push(microAlmacenado);
-    }
+    if (i3Obj != -1 && microAlmacenado.id == "mic1") {
+        almacen[i3Obj].cantidad = parseInt(almacen[i3Obj].cantidad) + 1;
+        almacen[i3Obj].precio = parseInt(almacen[i3Obj].precio) + 100;
 
-    // almacen.push(microAlmacenado);
+    } else if (i5Obj != -1 && microAlmacenado.id == "mic2") {
+        almacen[i5Obj].cantidad = parseInt(almacen[i5Obj].cantidad) + 1;
+        almacen[i5Obj].precio = parseInt(almacen[i5Obj].precio) + 200;
+
+    } else if (i7Obj != -1 && microAlmacenado.id == "mic3") {
+        almacen[i7Obj].cantidad = parseInt(almacen[i7Obj].cantidad) + 1;
+        almacen[i7Obj].precio = parseInt(almacen[i7Obj].precio) + 250;
+    }
+    else {
+        almacen.push(microAlmacenado);
+    }
     pintarCarrito();
 }
 function addRam() {
-    almacen.push(ramAlmacenada);
+    let ram1Obj = almacen.findIndex(almacen => almacen.tipo === "LG");
+    let ram2Obj = almacen.findIndex(almacen => almacen.tipo === "Samsung");
+    let ram3Obj = almacen.findIndex(almacen => almacen.tipo === "Sony");
+
+    if (ram1Obj != -1 && ramAlmacenada.id == "ram1") {
+        almacen[ram1Obj].cantidad = parseInt(almacen[ram1Obj].cantidad) + 1;
+        almacen[ram1Obj].precio = parseInt(almacen[ram1Obj].precio) + 70;
+
+    } else if (ram2Obj != -1 && ramAlmacenada.id == "ram2") {
+        almacen[ram2Obj].cantidad = parseInt(almacen[ram2Obj].cantidad) + 1;
+        almacen[ram2Obj].precio = parseInt(almacen[ram2Obj].precio) + 120;
+
+    } else if (ram3Obj != -1 && ramAlmacenada.id == "ram3") {
+        almacen[ram3Obj].cantidad = parseInt(almacen[ram3Obj].cantidad) + 1;
+        almacen[ram3Obj].precio = parseInt(almacen[ram3Obj].precio) + 140;
+    }
+    else {
+        almacen.push(ramAlmacenada);
+    }
     pintarCarrito();
 }
 function addHDD() {
-    almacen.push(hddAlmacenado);
+    let hdd1Obj = almacen.findIndex(almacen => almacen.tipo === "Seagate");
+    let hdd2Obj = almacen.findIndex(almacen => almacen.tipo === "Hitachi");
+    let hdd3Obj = almacen.findIndex(almacen => almacen.tipo === "Western-Digital");
+
+    if (hdd1Obj != -1 && hddAlmacenado.id == "hdd1") {
+        almacen[hdd1Obj].cantidad = parseInt(almacen[hdd1Obj].cantidad) + 1;
+        almacen[hdd1Obj].precio = parseInt(almacen[hdd1Obj].precio) + 70;
+
+    } else if (hdd2Obj != -1 && hddAlmacenado.id == "hdd2") {
+        almacen[hdd2Obj].cantidad = parseInt(almacen[hdd2Obj].cantidad) + 1;
+        almacen[hdd2Obj].precio = parseInt(almacen[hdd2Obj].precio) + 120;
+
+    } else if (hdd3Obj != -1 && hddAlmacenado.id == "hdd3") {
+        almacen[hdd3Obj].cantidad = parseInt(almacen[hdd3Obj].cantidad) + 1;
+        almacen[hdd3Obj].precio = parseInt(almacen[hdd3Obj].precio) + 140;
+    }
+    else {
+        almacen.push(hddAlmacenado);
+    }
     pintarCarrito();
 }
 
@@ -227,12 +269,12 @@ function pintarCarrito() {
     document.getElementById("resumenProducts").innerHTML = "";
     for (let i = 0; i < almacen.length; i++) {
         document.getElementById("resumenProducts").innerHTML +=
-            `<tr>
+        `<tr>
             <td class="pt-3">${almacen[i].producto}</td>
             <td class="pt-3">${almacen[i].tipo}</td>
             <td class="pt-3">${almacen[i].cantidad}</td>
             <td class="pt-3">${almacen[i].precio}</td>
-            <td><button type="button" class="btn btn-danger" id="" onclick="borrarRegistro()">Eliminar</button></td>
+            <td><button type="button" class="btn btn-danger" id="${almacen[i].id}" onclick="borrarRegistro()">Eliminar</button></td>
         </tr>
         `
         precioTotal = parseFloat(precioTotal) + parseFloat(almacen[i].precio);
@@ -310,6 +352,30 @@ transfe.addEventListener("change", function () {
 // }
 
 function borrarRegistro() {
+    for (let item in almacen) {
+        if (event.target.id == almacen[item].id) {
+            almacen[item].cantidad = parseInt(almacen[item].cantidad) - 1;
 
-    // pintarCarrito();
+            if (almacen[item].id == "mic1") {
+                almacen[item].precio = parseInt(almacen[item].precio) - 100;
+            } else if (almacen[item].id == "mic2") {
+                almacen[item].precio = parseInt(almacen[item].precio) - 200;
+            } else if (almacen[item].id == "mic3") {
+                almacen[item].precio = parseInt(almacen[item].precio) - 250;
+            } else if (almacen[item].id == "ram1" || almacen[item].id == "hdd1") {
+                almacen[item].precio = parseInt(almacen[item].precio) - 70;
+            } else if (almacen[item].id == "ram2" || almacen[item].id == "hdd2") {
+                almacen[item].precio = parseInt(almacen[item].precio) - 120;
+            } else if (almacen[item].id == "ram3" || almacen[item].id == "hdd3") {
+                almacen[item].precio = parseInt(almacen[item].precio) - 140;
+            }
+
+            if (almacen[item].cantidad < 1) {
+                let busqueda = almacen[item].tipo;
+                let indice = almacen.findIndex((objeto) => objeto.tipo === busqueda);
+                almacen.splice(indice, 1);
+            }
+        }
+    };
+    pintarCarrito();
 }
